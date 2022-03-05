@@ -76,11 +76,6 @@ create table catequista(
 	ativo varchar(10),
 	primary key (id));
 
-select * from usuario
-update catequista set nascimento = '1950-12-20' where id =4;
-
-alter table catequista add idLogin int;
-alter table catequista add foreign key (idLogin) references login (id);
 
 
 create table responsavel(
@@ -108,8 +103,6 @@ create table doacao(
 	destino varchar(40),
 	dataReceb date,
 	primary key (id));
-alter table doacao add foreign key (idDoador) references doador(id);  
-alter table doacao add entregue varchar(20);
 
 
 create table doador(
@@ -140,8 +133,7 @@ create table material(
 	reponsavel varchar,
 	primary key (id)
 	)
-alter table material add foreign key (idEquipe) references equipe(id);
-alter table material add foreign key (idEvento) references evento (id);
+	
 
 create table equipe(
 	id int not null identity (1,1),
@@ -150,10 +142,8 @@ create table equipe(
 	funcao varchar(40),
 	primary key (id)
 	);
-alter table equipe add foreign key (idEvento) references evento (id)
 
-alter table doador add foreign key (idContato) references contato (id);
-alter table doador add foreign key (idEndereco) references endereco (id);
+
 
 create table contas (
 	id int not null identity (1,1),
@@ -173,6 +163,21 @@ create table faltas (
 	estado varchar(10),
 	primary key (id)
 	);
+
+
+alter table doacao add foreign key (idDoador) references doador(id);  
+alter table doacao add entregue varchar(20);
+alter table material add foreign key (idEquipe) references equipe(id);
+alter table material add foreign key (idEvento) references evento (id);
+alter table equipe add foreign key (idEvento) references evento (id)
+
+alter table doador add foreign key (idContato) references contato (id);
+alter table doador add foreign key (idEndereco) references endereco (id);
+update catequista set nascimento = '1950-12-20' where id =4;
+
+alter table catequista add idLogin int;
+alter table catequista add foreign key (idLogin) references login (id);
+
 alter table catequizando  add faltasCatequese int, faltaMissa int, estadoFalta varchar;
 select * from catequizando;
 select * from usuario;
@@ -195,7 +200,6 @@ alter table catequizando add faltaMissa int;
 
 
 alter table turma drop column idCatequizando;
-alter table turma add
 
 alter table catequista add foreign key (idContato) references contato(id);
 
@@ -240,6 +244,14 @@ alter table contato drop column email;
 update endereco set cidade='Barretos' where id='1';
 
 --seleções
+SELECT l.login, l.senha, u.nome, u.funcao from login as l
+join usuario as u on u.idlogin = l.id where l.login = 'jvricci' and l.senha = 'ozy123' ;
+
+select * from usuario;
+
+update usuario set idlogin=1 where id=1;
+
+
 select * from usuario as c  join login as l on c.idlogin = l.id;
 select * from dizimistas as d 
 	inner join contato as c  on (d.idContato = c.id)
